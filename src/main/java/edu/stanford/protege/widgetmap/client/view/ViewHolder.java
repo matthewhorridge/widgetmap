@@ -3,6 +3,7 @@ package edu.stanford.protege.widgetmap.client.view;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
@@ -29,7 +30,7 @@ public class ViewHolder extends Composite implements HasCloseHandlers<Widget>, H
     Label viewLabel;
 
     @UiField
-    Button closeButton;
+    HTMLPanel closeButton;
 
     @UiField
     FlowPanel buttonBar;
@@ -67,11 +68,11 @@ public class ViewHolder extends Composite implements HasCloseHandlers<Widget>, H
                 }
             });
         }
-        closeButtonHandlerRegistration = closeButton.addClickHandler(new ClickHandler() {
+        closeButtonHandlerRegistration = closeButton.addDomHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 fireCloseEvent();
             }
-        });
+        }, ClickEvent.getType());
         closeButton.setTitle(MESSAGES.close());
     }
 

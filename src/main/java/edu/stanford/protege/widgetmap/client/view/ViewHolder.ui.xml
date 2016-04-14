@@ -26,17 +26,29 @@
             -webkit-box-sizing: border-box;
         }
 
-        .closeButton {
-            border: none;
-            background: transparent;
-            color: white;
-            padding: 0;
-            width: 15px;
-            height: 15px;
-        }
         .label {
             line-height: 20px;
         }
+
+        .container {
+            width: 10px;
+            height: 10px;
+            color: white;
+            cursor: pointer;
+            padding: 2px;
+            stroke-width: 3.5;
+            stroke: currentColor;
+        }
+
+        .container:hover {
+            stroke-width: 4;
+        }
+
+        .container svg {
+
+        }
+
+
 
     </ui:style>
 
@@ -46,7 +58,12 @@
             <div style="position: absolute; left: 1px; right: 1px; height 20px;" class="widget-holder-header">
                 <g:InlineLabel text="View" ui:field="viewLabel" styleName="widget-holder-label" addStyleNames="{style.label}"/>
                 <g:FlowPanel ui:field="buttonBar" addStyleNames="{style.button-bar}">
-                    <g:Button text="&#x2716;" ui:field="closeButton" addStyleNames="{style.closeButton}"/>
+                    <g:HTMLPanel addStyleNames="{style.container}" title="Close" ui:field="closeButton">
+                        <svg width="10" height="10">
+                            <line x1="1" y1="1" x2="9" y2="9"/>
+                            <line x1="1" y1="9" x2="9" y2="1"/>
+                        </svg>
+                    </g:HTMLPanel>
                 </g:FlowPanel>
 
             </div>
@@ -54,6 +71,5 @@
                 <g:Widget ui:field="widget" addStyleNames="{style.content}"/>
             </div>
         </div>
-
     </g:HTMLPanel>
 </ui:UiBinder>
