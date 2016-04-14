@@ -1,8 +1,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:wm="urn:import:edu.stanford.protege.widgetmap.client.view">
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
     <ui:with field="wm" type="edu.stanford.protege.widgetmap.resources.WidgetMapClientBundle"/>
+    <ui:with field="msg" type="edu.stanford.protege.widgetmap.client.Messages"/>
 
     <ui:style>
 
@@ -43,7 +43,6 @@
         }
 
         .container:hover {
-            stroke-width: 4;
         }
 
         .container svg {
@@ -66,7 +65,7 @@
             <g:HTMLPanel styleName="{wm.style.widgetHolderHeader} {style.header}">
                 <g:InlineLabel text="View" ui:field="viewLabel" addStyleNames="{style.label} {wm.style.widgetHolderLabel}"/>
                 <g:FlowPanel ui:field="buttonBar" addStyleNames="{style.button-bar}">
-                    <g:HTMLPanel addStyleNames="{style.container}" title="Close" ui:field="closeButton">
+                    <g:HTMLPanel addStyleNames="{style.container}" title="{msg.close}" ui:field="closeButton">
                         <svg width="10" height="10">
                             <line x1="1" y1="1" x2="9" y2="9"/>
                             <line x1="1" y1="9" x2="9" y2="1"/>
