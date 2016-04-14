@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='widgetmap'>
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User'/>
+
+
+    <!-- We need the JUnit module in the main module,               -->
+    <!-- otherwise eclipse complains (Google plugin bug?)           -->
+    <!--<inherits name='com.google.gwt.junit.JUnit'/>-->
+
+    <!--<inherits name='com.google.gwt.user.theme.standard.Standard'/>-->
+
+    <inherits name="com.google.common.base.Base"/>
+
+    <!-- Other module inherits                                      -->
+    <inherits name="com.google.gwt.resources.Resources"/>
+
+    <!-- Specify the app entry point class.                         -->
+    <entry-point class='edu.stanford.protege.widgetmap.client.widgetmap'/>
+
+   <!-- Specify the paths for translatable code                    -->
+
+    <stylesheet src="widgetmap.css"/>
+
+    <source path='client'/>
+    <source path='shared'/>
+    <public path='public'/>
+
+
+</module>
