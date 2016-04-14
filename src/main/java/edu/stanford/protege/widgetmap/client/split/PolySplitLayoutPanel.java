@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import edu.stanford.protege.widgetmap.client.*;
+import edu.stanford.protege.widgetmap.resources.WidgetMapClientBundle;
 import edu.stanford.protege.widgetmap.shared.node.*;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
         Element mainElement = Document.get().createDivElement();
         setElement(mainElement);
         setSize("100%", "100%");
-        addStyleName("poly-split-panel");
+        addStyleName(WidgetMapClientBundle.BUNDLE.style().polySplitPanel());
         this.direction = direction;
         layout = new Layout(getElement());
         ensureGlassElementExists();
@@ -176,7 +177,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
     }
 
     private void setupWidgetStyle(Widget widget) {
-        widget.addStyleName("poly-split-panel-box-sizing");
+        widget.addStyleName(WidgetMapClientBundle.BUNDLE.style().polySplitPanelBoxSizing());
     }
 
     /**
@@ -601,7 +602,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
             setElement(Document.get().createDivElement());
             sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE | Event.ONDBLCLICK);
             ensureGlassElementExists();
-            addStyleName("poly-split-panel-movable-splitter");
+            addStyleName(WidgetMapClientBundle.BUNDLE.style().polySplitPanelMovableSplitter());
         }
 
         public int getFixedPrimaryAxisSize() {
@@ -641,7 +642,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
                     Event.setCapture(getElement());   // Ask the element to receive all mouse events until releaseCapture
                     event.preventDefault();
                     if (isMovable()) {
-                        addStyleName("poly-split-panel-movable-splitter-move");
+                        addStyleName(WidgetMapClientBundle.BUNDLE.style().polySplitPanelMovableSplitterMove());
                     }
                     break;
                 case Event.ONMOUSEUP:
@@ -650,7 +651,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
                     Event.releaseCapture(getElement());
                     event.preventDefault();
                     if (isMovable()) {
-                        removeStyleName("poly-split-panel-movable-splitter-move");
+                        removeStyleName(WidgetMapClientBundle.BUNDLE.style().polySplitPanelMovableSplitterMove());
                     }
                     break;
                 case Event.ONMOUSEMOVE:
@@ -905,14 +906,15 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
                 consumedSpace += widgetLength;
                 if (widget instanceof Splitter) {
                     boolean moveable = ((Splitter) widget).isMovable();
+                    WidgetMapClientBundle.WidgetMapCss style = WidgetMapClientBundle.BUNDLE.style();
                     if (moveable) {
-                        widget.addStyleName("poly-split-panel-movable-splitter");
-                        widget.removeStyleName("poly-split-panel-fixed-splitter");
+                        widget.addStyleName(style.polySplitPanelMovableSplitter());
+                        widget.removeStyleName(style.polySplitPanelFixedSplitter());
                         widget.addStyleName(getMovableSplitterStyleName());
                     }
                     else {
-                        widget.addStyleName("poly-split-panel-fixed-splitter");
-                        widget.removeStyleName("poly-split-panel-movable-splitter");
+                        widget.addStyleName(style.polySplitPanelFixedSplitter());
+                        widget.removeStyleName(style.polySplitPanelMovableSplitter());
                         widget.removeStyleName(getMovableSplitterStyleName());
                     }
                 }
@@ -942,7 +944,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
 
         @Override
         protected String getMovableSplitterStyleName() {
-            return "poly-split-panel-movable-horizontal-splitter";
+            return WidgetMapClientBundle.BUNDLE.style().polySplitPanelMovableHorizontalSplitter();
         }
     }
 
@@ -961,7 +963,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
 
         @Override
         protected String getMovableSplitterStyleName() {
-            return "poly-split-panel-movable-vertical-splitter";
+            return WidgetMapClientBundle.BUNDLE.style().polySplitPanelMovableVerticalSplitter();
         }
     }
 

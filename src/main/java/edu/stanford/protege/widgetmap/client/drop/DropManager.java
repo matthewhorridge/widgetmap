@@ -2,7 +2,6 @@ package edu.stanford.protege.widgetmap.client.drop;
 
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.*;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -10,6 +9,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.*;
 import edu.stanford.protege.widgetmap.client.Messages;
+import edu.stanford.protege.widgetmap.resources.WidgetMapClientBundle;
 
 /**
  * Author: Matthew Horridge<br>
@@ -72,14 +72,15 @@ public class DropManager {
         private DropPanel() {
             final FlowPanel mainPanel = new FlowPanel();
             initWidget(mainPanel);
-            addStyleName("drop-glass");
+            WidgetMapClientBundle.WidgetMapCss style = WidgetMapClientBundle.BUNDLE.style();
+            addStyleName(style.dropGlass());
             sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE | Event.ONDBLCLICK);
             mainPanel.add(dropTargetIndicator);
-            dropTargetIndicator.addStyleName("drop-target-indicator");
+            dropTargetIndicator.addStyleName(style.dropTargetIndicator());
             mainPanel.add(dropPositionIndicator);
-            dropPositionIndicator.addStyleName("drop-side-indicator");
+            dropPositionIndicator.addStyleName(style.dropSideIndicator());
             mainPanel.add(dropHelpText);
-            dropHelpText.addStyleName("drop-help-text");
+            dropHelpText.addStyleName(style.dropHelpText());
             focuser = new FocusPanel();
             mainPanel.add(focuser);
             focuser.addKeyUpHandler(new KeyUpHandler() {

@@ -2,6 +2,8 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:wm="urn:import:edu.stanford.protege.widgetmap.client.view">
 
+    <ui:with field="wm" type="edu.stanford.protege.widgetmap.resources.WidgetMapClientBundle"/>
+
     <ui:style>
 
         .main {
@@ -48,15 +50,21 @@
 
         }
 
+        .header {
+            position: absolute; left: 1px; right: 1px; height: 20px;
+        }
 
+        .widgetHolder {
+            width: 100%; height: 100%;
+        }
 
     </ui:style>
 
     <!--&#x2716;-->
     <g:HTMLPanel ui:field="viewHeader" addStyleNames="{style.main}">
-        <div class="widget-holder" style="width: 100%; height: 100%;">
-            <div style="position: absolute; left: 1px; right: 1px; height 20px;" class="widget-holder-header">
-                <g:InlineLabel text="View" ui:field="viewLabel" styleName="widget-holder-label" addStyleNames="{style.label}"/>
+        <g:HTMLPanel addStyleNames="{wm.style.widgetHolder} {style.widgetHolder}">
+            <g:HTMLPanel styleName="{wm.style.widgetHolderHeader} {style.header}">
+                <g:InlineLabel text="View" ui:field="viewLabel" addStyleNames="{style.label} {wm.style.widgetHolderLabel}"/>
                 <g:FlowPanel ui:field="buttonBar" addStyleNames="{style.button-bar}">
                     <g:HTMLPanel addStyleNames="{style.container}" title="Close" ui:field="closeButton">
                         <svg width="10" height="10">
@@ -66,10 +74,10 @@
                     </g:HTMLPanel>
                 </g:FlowPanel>
 
-            </div>
+            </g:HTMLPanel>
             <div style="position: absolute; left: 1px; right: 1px; top: 21px; bottom: 2px; box-sizing: border-box; -moz-box-sizing: border-box;">
                 <g:Widget ui:field="widget" addStyleNames="{style.content}"/>
             </div>
-        </div>
+        </g:HTMLPanel>
     </g:HTMLPanel>
 </ui:UiBinder>

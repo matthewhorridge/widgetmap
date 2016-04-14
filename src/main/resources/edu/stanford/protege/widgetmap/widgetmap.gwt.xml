@@ -20,11 +20,9 @@
 
    <!-- Specify the paths for translatable code                    -->
 
-    <stylesheet src="widgetmap.css"/>
-
     <source path='client'/>
     <source path='shared'/>
-    <public path='public'/>
+    <source path="resources"/>
 
 
 </module>
