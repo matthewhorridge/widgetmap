@@ -33,10 +33,7 @@ public class ViewHolder extends Composite implements HasCloseHandlers<Widget>, H
     HTMLPanel closeButton;
 
     @UiField
-    FlowPanel buttonBar;
-
-    @UiField
-    HTMLPanel viewHeader;
+    Widget buttonBar;
 
     private NodeProperties nodeProperties = NodeProperties.emptyNodeProperties();
 
