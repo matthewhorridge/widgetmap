@@ -14,7 +14,6 @@
     <properties>
         <!-- Convenience property to set the GWT version -->
         <gwt.version>2.7.0</gwt.version>
-        <!-- GWT needs at least java 1.5 -->
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <guava.version>18.0</guava.version>
@@ -101,12 +100,8 @@
         </resources>
 
 
-        <!-- Generate compiled stuff in the folder used for developing mode -->
-        <!--<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>-->
-
         <plugins>
 
-            <!-- GWT Maven Plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
@@ -121,8 +116,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <!-- Plugin configuration. There are many available options, see
-                  gwt-maven-plugin documentation at codehaus.org -->
                 <configuration>
                     <runTarget>widgetmap.html</runTarget>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
