@@ -30,6 +30,14 @@
         </repository>
     </distributionManagement>
 
+    <scm>
+        <connection>scm:git:git@github.com:matthewhorridge/widgetmap.git</connection>
+        <developerConnection>scm:git:git@github.com:matthewhorridge/widgetmap.git</developerConnection>
+        <url>https://github.com/matthewhorridge/widgetmap</url>
+        <tag>HEAD</tag>
+    </scm>
+
+
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>
