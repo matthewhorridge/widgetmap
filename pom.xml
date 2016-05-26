@@ -8,6 +8,22 @@
     <version>1.0.0</version>
     <name>widgetmap</name>
 
+    <description>widgetmap is a GWT library that provides a treemap-like nesting for Widget</description>
+    <url>https://github.com/matthewhorridge/widgetmap</url>
+
+    <developers>
+        <developer>
+            <id>matthewhorridge</id>
+            <name>Matthew Horridge</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE Version 3</name>
+        </license>
+    </licenses>
+
     <properties>
         <!-- Convenience property to set the GWT version -->
         <gwt.version>2.7.0</gwt.version>
