@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.*;
 import edu.stanford.protege.widgetmap.client.Messages;
 import edu.stanford.protege.widgetmap.resources.WidgetMapClientBundle;
 
+import java.util.Optional;
+
 /**
  * Author: Matthew Horridge<br>
  * Stanford University<br>
@@ -101,7 +103,8 @@ public class DropManager {
         @Override
         public void onBrowserEvent(Event event) {
             super.onBrowserEvent(event);
-            switch (event.getTypeInt()) {
+            int typeInt = event.getTypeInt();
+            switch (typeInt) {
                 case Event.ONMOUSEMOVE:
                     handleMouseMove(event);
                     break;
@@ -113,19 +116,24 @@ public class DropManager {
         }
 
         private void handleMouseMove(Event mouseMoveEvent) {
+            GWT.log("Handling mouse event: " + mouseMoveEvent);
             int x = mouseMoveEvent.getClientX();
             int y = mouseMoveEvent.getClientY();
-            Element e = findTargetElement(x, y);
-            if(e == null) {
+            GWT.log("Mouse is at: (" + x + ", " + y + ")");
+            Optional<Element> foundElement = findTargetElement(x, y);
+            GWT.log("Target element: " + foundElement);
+            if(!foundElement.isPresent()) {
                 hideDropIndicator();
                 return;
             }
+            Element e = foundElement.get();
             if (e.getAbsoluteLeft() < x && x < e.getAbsoluteRight() && e.getAbsoluteTop() < y && y < e.getAbsoluteBottom()) {
                 updateDropIndicator(x, y, e);
             }
         }
 
         private void updateDropIndicator(int x, int y, Element e) {
+            GWT.log("Updating drop indicator");
             Style dropRectStyle = dropTargetIndicator.getElement().getStyle();
             int left = e.getAbsoluteLeft();
             int top = e.getAbsoluteTop();
@@ -184,43 +192,45 @@ public class DropManager {
             dropIndicatorStyle.setVisibility(Style.Visibility.HIDDEN);
         }
 
-        private Element findTargetElement(int x, int y) {
+        private Optional<Element> findTargetElement(int x, int y) {
             BodyElement bodyElement = Document.get().getBody();
             return findElement(bodyElement, x, y);
         }
 
-        private Element findElement(Node startFrom, int x, int y) {
+        private Optional<Element> findElement(Node startFrom, int x, int y) {
+            GWT.log("[WidgetMap] findElement");
             for (int i = 0; i < startFrom.getChildCount(); i++) {
                 Node e = startFrom.getChild(i);
                 Element ee = (Element) e;
+                GWT.log("[WidgetMap] Examining element: " + ee.getTagName());
                 // Make sure it's not an svg element - in relation to this bug here:
                 //     https://github.com/gwtproject/gwt/issues/9124
-                if (!ee.getTagName().equals("svg")) {
+                if (!"svg".equals(ee.getTagName())) {
                     String className = ee.getClassName();
                     if (className != null && className.contains("drop-zone")) {
                         if (ee.getAbsoluteLeft() < x && x < ee.getAbsoluteRight() && ee.getAbsoluteTop() < y && y < ee.getAbsoluteBottom()) {
-                            return ee;
+                            return Optional.of(ee);
                         }
                     }
-                    Element foundDesc = findElement(e, x, y);
-                    if (foundDesc != null) {
+                    Optional<Element> foundDesc = findElement(e, x, y);
+                    if (foundDesc.isPresent()) {
                         return foundDesc;
                     }
                 }
             }
-            return null;
+            return Optional.empty();
         }
 
         private void dropWidget(Event event) {
             int x = event.getClientX();
             int y = event.getClientY();
-            Element element = findTargetElement(x, y);
-            if(element == null) {
+            Optional<Element> element = findTargetElement(x, y);
+            if(!element.isPresent()) {
                 GWT.log("[WidgetMap][DropManager] In dropWidget but target element is null");
                 return;
             }
-            DropLocation dropLocation = DropLocation.getDropLocation(x, y, element);
-            dropHandler.handleDrop(element, dropLocation);
+            DropLocation dropLocation = DropLocation.getDropLocation(x, y, element.get());
+            dropHandler.handleDrop(element.get(), dropLocation);
         }
     }
 
