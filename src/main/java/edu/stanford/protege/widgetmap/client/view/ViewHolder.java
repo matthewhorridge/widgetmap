@@ -49,6 +49,8 @@ public class ViewHolder extends Composite implements HasCloseHandlers<Widget>, H
 
     private static ViewHolderUIBinder uiBinder = GWT.create(ViewHolderUIBinder.class);
 
+    private boolean closeable = true;
+
     public ViewHolder(IsWidget childWidget, NodeProperties nodeProperties) {
         this.widget = childWidget.asWidget();
         this.nodeProperties = nodeProperties;
@@ -65,16 +67,21 @@ public class ViewHolder extends Composite implements HasCloseHandlers<Widget>, H
                 }
             });
         }
-        closeButtonHandlerRegistration = closeButton.addDomHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                fireCloseEvent();
-            }
-        }, ClickEvent.getType());
+        closeButtonHandlerRegistration = closeButton.addDomHandler(event -> fireCloseEvent(), ClickEvent.getType());
         closeButton.setTitle(MESSAGES.close());
     }
 
     public void setViewLabel(String label) {
         viewLabel.setText(label);
+    }
+
+    public boolean isCloseable() {
+        return closeable;
+    }
+
+    public void setCloseable(boolean closeable) {
+        this.closeable = closeable;
+        closeButton.setVisible(closeable);
     }
 
     /**
