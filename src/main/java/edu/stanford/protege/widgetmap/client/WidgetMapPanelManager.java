@@ -1,8 +1,10 @@
 package edu.stanford.protege.widgetmap.client;
 
 import com.google.common.base.Optional;
-import com.google.gwt.event.logical.shared.*;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.google.web.bindery.event.shared.SimpleEventBus;
@@ -48,12 +50,12 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
         this.emptyWidget = checkNotNull(emptyWidget);
     }
 
-    public Optional<Node> getRootNode() {
+    public java.util.Optional<Node> getRootNode() {
         if(!rootNode.isPresent()) {
-            return Optional.absent();
+            return java.util.Optional.empty();
         }
         else {
-            return Optional.of(rootNode.get().duplicate());
+            return java.util.Optional.of(rootNode.get().duplicate());
         }
     }
 

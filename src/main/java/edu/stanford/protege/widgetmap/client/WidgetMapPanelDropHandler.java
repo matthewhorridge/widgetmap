@@ -36,7 +36,7 @@ public class WidgetMapPanelDropHandler implements DropHandler {
 
     @Override
     public void handleDrop(Element element, DropLocation dropLocation) {
-        Optional<Node> root = panelManager.getRootNode();
+        java.util.Optional<Node> root = panelManager.getRootNode();
         if (!root.isPresent()) {
             panelManager.setRootNode(nodeToDrop);
             return;

@@ -1,7 +1,8 @@
 package edu.stanford.protege.widgetmap.client;
 
-import com.google.common.base.Optional;
 import edu.stanford.protege.widgetmap.shared.node.Node;
+
+import java.util.Optional;
 
 /**
  * Author: Matthew Horridge<br>

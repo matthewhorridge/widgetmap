@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.HasHandlers;
  * Bio-Medical Informatics Research Group<br>
  * Date: 05/12/2013
  */
-public interface HasViewTitleChangedHandlers extends HasHandlers {
+public interface HasViewTitleChangedHandlers {
 
     HandlerRegistration addViewTitleChangedHandler(ViewTitleChangedHandler handler);
 }

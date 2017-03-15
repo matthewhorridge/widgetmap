@@ -1,13 +1,18 @@
 package edu.stanford.protege.widgetmap.client;
 
-import com.google.common.base.Optional;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.ProvidesResize;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import edu.stanford.protege.widgetmap.client.drop.DropManager;
-import edu.stanford.protege.widgetmap.shared.node.*;
+import edu.stanford.protege.widgetmap.shared.node.Node;
+import edu.stanford.protege.widgetmap.shared.node.TerminalNode;
+
+import java.util.Optional;
 
 /**
  * Author: Matthew Horridge<br>
