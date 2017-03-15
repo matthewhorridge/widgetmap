@@ -1,9 +1,9 @@
 package edu.stanford.protege.widgetmap.client;
 
-import com.google.common.base.Optional;
 import edu.stanford.protege.widgetmap.shared.node.Node;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.Stack;
 
 /**
@@ -26,7 +26,7 @@ public class NodeHistoryManager {
 
     public Optional<Node> pop() {
         if(stack.isEmpty()) {
-            return Optional.absent();
+            return Optional.empty();
         }
         return stack.pop();
     }

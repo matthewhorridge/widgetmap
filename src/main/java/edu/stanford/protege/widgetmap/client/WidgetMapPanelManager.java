@@ -1,6 +1,5 @@
 package edu.stanford.protege.widgetmap.client;
 
-import com.google.common.base.Optional;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
@@ -26,7 +25,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHandlers {
 
-    private Optional<Node> rootNode = Optional.absent();
+    private Optional<Node> rootNode = java.util.Optional.empty();
 
     private final IsRootWidget rootWidget;
 
@@ -50,7 +49,7 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
         this.emptyWidget = checkNotNull(emptyWidget);
     }
 
-    public java.util.Optional<Node> getRootNode() {
+    public Optional<Node> getRootNode() {
         if(!rootNode.isPresent()) {
             return java.util.Optional.empty();
         }
@@ -62,7 +61,7 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
     public void setRootNode(Node rootNode) {
         RootNodeChangeEventManager eventManager = new RootNodeChangeEventManager();
         eventManager.begin();
-        this.rootNode = Optional.of(rootNode);
+        this.rootNode = java.util.Optional.of(rootNode);
         update();
         eventManager.end();
     }
@@ -91,7 +90,7 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
 
     private void update() {
         if(rootNode.isPresent()) {
-            rootNode = Optional.of(rootNode.get().minimise());
+            rootNode = java.util.Optional.of(rootNode.get().minimise());
         }
         rebuild();
     }
@@ -103,7 +102,7 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
     }
 
     private Optional<IsWidget> getTerminalNodeWidget(TerminalNodeId nodeId) {
-        return Optional.fromNullable(widgetMap.get(nodeId));
+        return Optional.ofNullable(widgetMap.get(nodeId));
     }
 
     private IsWidget build() {
@@ -144,8 +143,8 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
         return root;
     }
 
-    public Optional<IsWidget> getWidgetForNode(TerminalNodeId terminalNode) {
-        return Optional.fromNullable(widgetMap.get(terminalNode));
+    public java.util.Optional<IsWidget> getWidgetForNode(TerminalNodeId terminalNode) {
+        return java.util.Optional.ofNullable(widgetMap.get(terminalNode));
     }
 
     private IsWidget getWidgetForTerminalNode(TerminalNode terminalNode) {
@@ -170,7 +169,7 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
         eventManager.begin();
         widgetMap.remove(nodeId);
         if(rootNode.isPresent() && rootNode.get() instanceof TerminalNode && ((TerminalNode) rootNode.get()).getNodeId().equals(nodeId)) {
-            rootNode = Optional.absent();
+            rootNode = java.util.Optional.empty();
         }
         else {
             for(TerminalNode tn : rootNode.get().getTerminalNodes()) {
@@ -189,7 +188,7 @@ public class WidgetMapPanelManager implements HasRootNode, HasRootNodeChangedHan
             return rootNode;
         }
         else {
-            return Optional.of(rootNode.get().duplicate());
+            return java.util.Optional.of(rootNode.get().duplicate());
         }
     }
 

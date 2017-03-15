@@ -1,8 +1,9 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
-import com.google.common.base.Optional;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -15,7 +16,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class Node implements IsSerializable {
 
-    private Optional<ParentNode> parent = Optional.absent();
+    @Nullable
+    private ParentNode parent = null;
 
     protected Node() {
     }
@@ -42,7 +44,7 @@ public abstract class Node implements IsSerializable {
      * {@link com.google.common.base.Optional#absent()} is returned.
      */
     public Optional<ParentNode> getParent() {
-        return parent;
+        return Optional.ofNullable(parent);
     }
 
     /**
@@ -53,15 +55,15 @@ public abstract class Node implements IsSerializable {
      * @throws java.lang.NullPointerException is {@code parent} is {@code null}.
      */
     protected void setParent(Optional<ParentNode> parent) {
-        this.parent = checkNotNull(parent);
+        this.parent = checkNotNull(parent).orElse(null);
     }
 
     /**
      * Removes this node from its parent node.
      */
     public void removeFromParent() {
-        if (parent.isPresent()) {
-            parent.get().removeChild(this);
+        if (parent != null) {
+            parent.removeChild(this);
         }
     }
 }

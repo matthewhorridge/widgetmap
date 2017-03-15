@@ -1,7 +1,8 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
-import com.google.common.base.Optional;
 import org.junit.Test;
+
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -52,7 +53,7 @@ public class ParentNodeTestCase {
         ParentNode node = new ParentNode();
         Node child = mock(Node.class);
         node.addChild(child, WEIGHT);
-        verify(child).setParent(Optional.<ParentNode>of(node));
+        verify(child).setParent(Optional.of(node));
     }
 
     @Test(expected = NullPointerException.class)
@@ -74,7 +75,7 @@ public class ParentNodeTestCase {
         Node child = mock(Node.class);
         node.addChild(child, WEIGHT);
         node.removeChild(child);
-        verify(child).setParent(Optional.<ParentNode>absent());
+        verify(child).setParent(Optional.empty());
     }
 
     @Test

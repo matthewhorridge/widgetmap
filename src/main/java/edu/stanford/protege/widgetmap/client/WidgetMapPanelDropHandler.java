@@ -1,6 +1,5 @@
 package edu.stanford.protege.widgetmap.client;
 
-import com.google.common.base.Optional;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -11,6 +10,7 @@ import edu.stanford.protege.widgetmap.shared.node.Node;
 import edu.stanford.protege.widgetmap.shared.node.ParentNode;
 import edu.stanford.protege.widgetmap.shared.node.TerminalNode;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -89,6 +89,6 @@ public class WidgetMapPanelDropHandler implements DropHandler {
                 }
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 }

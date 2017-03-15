@@ -1,10 +1,12 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
-import com.google.common.base.Optional;
 import org.junit.Test;
 
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -82,7 +84,7 @@ public class TerminalNodeTestCase {
     @Test
     public void getParentNodeShouldReturnAbsent() {
         TerminalNode node = new TerminalNode();
-        assertEquals(Optional.<ParentNode>absent(), node.getParent());
+        assertEquals(Optional.empty(), node.getParent());
     }
 
     @Test
@@ -90,7 +92,7 @@ public class TerminalNodeTestCase {
         Optional<ParentNode> parent = Optional.of(mock(ParentNode.class));
         TerminalNode node = new TerminalNode();
         node.setParent(parent);
-        assertSame(parent, node.getParent());
+        assertEquals(parent, node.getParent());
     }
 
     @Test

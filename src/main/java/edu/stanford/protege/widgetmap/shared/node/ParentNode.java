@@ -1,13 +1,9 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -174,7 +170,7 @@ public class ParentNode extends Node {
         int index = indexOf(child);
         if (index != -1) {
             children.remove(index);
-            child.setParent(Optional.<ParentNode>absent());
+            child.setParent(Optional.empty());
         }
     }
 
@@ -254,7 +250,7 @@ public class ParentNode extends Node {
                     double reProportionedWeight = grandChildWeight * weightProportion;
                     addChild(grandChildNode, reProportionedWeight);
                 }
-                minimisedChild.setParent(Optional.<ParentNode>absent());
+                minimisedChild.setParent(Optional.empty());
             }
             else {
                 double childWeight = child.getWeight();
