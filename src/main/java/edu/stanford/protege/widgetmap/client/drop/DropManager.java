@@ -198,11 +198,9 @@ public class DropManager {
         }
 
         private Optional<Element> findElement(Node startFrom, int x, int y) {
-            GWT.log("[WidgetMap] findElement");
             for (int i = 0; i < startFrom.getChildCount(); i++) {
                 Node e = startFrom.getChild(i);
                 Element ee = (Element) e;
-                GWT.log("[WidgetMap] Examining element: " + ee.getTagName());
                 // Make sure it's not an svg element - in relation to this bug here:
                 //     https://github.com/gwtproject/gwt/issues/9124
                 if (!"svg".equals(ee.getTagName())) {
