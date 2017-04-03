@@ -1,5 +1,6 @@
 package edu.stanford.protege.widgetmap.client.split;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -470,7 +471,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
 
         @Override
         public String toString() {
-            return Objects.toStringHelper("WidgetLayoutData")
+            return MoreObjects.toStringHelper("WidgetLayoutData")
                     .add("initialWeight", initialWeight)
                     .add("weight", weight)
                     .toString();
@@ -491,7 +492,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
 
         @Override
         public String toString() {
-            return Objects.toStringHelper("SplitterLayoutData").toString();
+            return MoreObjects.toStringHelper("SplitterLayoutData").toString();
         }
     }
 
@@ -969,7 +970,7 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
 
     @Override
     public String toString() {
-        return Objects.toStringHelper("PolySplitLayoutPanel")
+        return MoreObjects.toStringHelper("PolySplitLayoutPanel")
                 .add("childCount", children.size())
                 .add("direction", direction).toString();
     }

@@ -26,10 +26,10 @@
 
     <properties>
         <!-- Convenience property to set the GWT version -->
-        <gwt.version>2.8.0-rc2</gwt.version>
+        <gwt.version>2.8.0</gwt.version>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <guava.version>18.0</guava.version>
+        <guava.version>20.0</guava.version>
     </properties>
 
     <distributionManagement>

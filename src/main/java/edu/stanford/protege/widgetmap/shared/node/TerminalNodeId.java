@@ -1,5 +1,6 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -52,7 +53,7 @@ public class TerminalNodeId implements Serializable, IsSerializable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper("Id").addValue(id).toString();
+        return MoreObjects.toStringHelper("Id").addValue(id).toString();
     }
 
     /**

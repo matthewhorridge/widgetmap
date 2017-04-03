@@ -1,5 +1,6 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.util.Collections;
@@ -128,7 +129,7 @@ public class TerminalNode extends Node implements HasNodeProperties {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper("TerminalNode").addValue(nodeId).addValue(nodeProperties).toString();
+        return MoreObjects.toStringHelper("TerminalNode").addValue(nodeId).addValue(nodeProperties).toString();
     }
 
     public Builder toBuilder() {

@@ -1,5 +1,6 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -30,7 +31,7 @@ public class ParentNode extends Node {
 
     @Override
     public String toString() {
-        Objects.ToStringHelper helper = Objects.toStringHelper("ParentNode");
+        MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper("ParentNode");
         helper.add("direction", direction);
         for (NodeHolder nodeHolder : children) {
             helper.add("weight", nodeHolder.getWeight());

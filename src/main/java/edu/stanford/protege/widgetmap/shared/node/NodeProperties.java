@@ -1,5 +1,6 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -69,7 +70,7 @@ public class NodeProperties implements IsSerializable {
 
     @Override
     public String toString() {
-        Objects.ToStringHelper helper = Objects.toStringHelper("NodeProperties");
+        MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper("NodeProperties");
             for(String property : properties.keySet()) {
                 helper.add(property, properties.get(property));
             }
