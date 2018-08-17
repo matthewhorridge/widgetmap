@@ -33,8 +33,7 @@
         .headerLabel {
             flex-grow: 1;
             flex-shrink: 1;
-            line-height: 20px;
-            font-size: 14px;
+            line-height: 1.5em;
         }
 
         .buttonContainer {
