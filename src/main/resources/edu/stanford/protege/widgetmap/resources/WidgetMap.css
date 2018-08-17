@@ -1,3 +1,6 @@
+@external .widget-holder-header;
+@external .widget-holder-label;
+
 .drop-glass {
     background: gray;
     opacity: 0.7;
