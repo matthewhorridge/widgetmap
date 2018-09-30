@@ -1,5 +1,8 @@
 @external .widget-holder-header;
 @external .widget-holder-label;
+@external .widget-holder;
+@external .poly-split-*;
+@external .drop-*;
 
 .drop-glass {
     background: gray;
