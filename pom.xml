@@ -5,7 +5,7 @@
     <groupId>edu.stanford.protege</groupId>
     <artifactId>widgetmap</artifactId>
     <packaging>jar</packaging>
-    <version>2.1.2-SNAPSHOT</version>
+    <version>2.1.2</version>
     <name>widgetmap</name>
 
     <parent>
