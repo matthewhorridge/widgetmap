@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 /**
@@ -45,13 +46,28 @@ public class NodeProperties implements IsSerializable {
         return value;
     }
 
+    @Nonnull
     public List<String> getProperties() {
         return new ArrayList<String>(properties.keySet());
     }
 
+    @Nonnull
+    public Builder toBuilder() {
+        return new Builder(properties);
+    }
+
     public static class Builder {
 
-        private Map<String, String> propertiesMap = new LinkedHashMap<String, String>();
+        @Nonnull
+        private final Map<String, String> propertiesMap;
+
+        public Builder() {
+            this(new LinkedHashMap<>());
+        }
+
+        public Builder(@Nonnull Map<String, String> propertiesMap) {
+            this.propertiesMap = propertiesMap;
+        }
 
         public Builder setValue(String property, String value) {
             propertiesMap.put(property, value);

@@ -3,6 +3,7 @@ package edu.stanford.protege.widgetmap.shared.node;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Set;
 
@@ -70,6 +71,14 @@ public class TerminalNode extends Node implements HasNodeProperties {
      */
     public NodeProperties getNodeProperties() {
         return nodeProperties;
+    }
+
+    /**
+     * Sets this nodes properties
+     * @param nodeProperties The node properties.
+     */
+    public void setNodeProperties(@Nonnull NodeProperties nodeProperties) {
+        this.nodeProperties = checkNotNull(nodeProperties);
     }
 
     @Override
