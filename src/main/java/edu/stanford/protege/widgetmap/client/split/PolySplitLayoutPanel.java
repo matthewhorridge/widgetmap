@@ -3,6 +3,7 @@ package edu.stanford.protege.widgetmap.client.split;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -28,7 +29,7 @@ import static com.google.gwt.dom.client.Style.Unit.PX;
  */
 public class PolySplitLayoutPanel extends Panel implements ProvidesResize, RequiresResize, HasWeights, HasWeightsChangedHandlers {
 
-    public static final int SPLITTER_WIDTH = 10;
+    public static final int SPLITTER_WIDTH = 1;
 
     public static final int MIN_CLIENT_SIZE = 20;
 
@@ -600,7 +601,10 @@ public class PolySplitLayoutPanel extends Panel implements ProvidesResize, Requi
         private int clientDown = 0;
 
         public Splitter() {
-            setElement(Document.get().createDivElement());
+            DivElement splitterElement = Document.get().createDivElement();
+            DivElement interactionElement = Document.get().createDivElement();
+            splitterElement.appendChild(interactionElement);
+            setElement(splitterElement);
             sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE | Event.ONDBLCLICK);
             ensureGlassElementExists();
             addStyleName(WidgetMapClientBundle.BUNDLE.style().polySplitPanelMovableSplitter());
