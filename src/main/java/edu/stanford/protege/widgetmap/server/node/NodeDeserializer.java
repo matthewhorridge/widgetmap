@@ -93,14 +93,14 @@ public class NodeDeserializer extends StdDeserializer<Node> {
      * @param objectNode The Json element that represents the terminal element.
      * @return The deserialized node.
      */
-    private Node deserializeTerminalNode(ObjectNode objectNode, DeserializationContext context) {
+    private Node deserializeTerminalNode(ObjectNode objectNode, DeserializationContext context) throws JsonProcessingException {
         NodeProperties.Builder builder = NodeProperties.builder();
         TerminalNodeId nodeId = deserializeTerminalNodeId(objectNode);
         for(Iterator<String> it = objectNode.fieldNames(); it.hasNext(); ) {
             String fieldName = it.next();
             if(!fieldName.equals(ID.getVocabulary())) {
                 JsonNode valueNode = objectNode.get(fieldName);
-                String value = valueNode.asText();
+                String value = context.getParser().getCodec().treeToValue(valueNode, String.class);
                 builder.setValue(fieldName, value);
             }
         }
