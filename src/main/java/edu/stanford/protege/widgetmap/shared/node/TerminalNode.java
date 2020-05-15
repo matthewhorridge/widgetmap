@@ -78,7 +78,7 @@ public class TerminalNode extends Node implements HasNodeProperties {
     }
 
     @JsonAnyGetter
-    public Map<String, String> getNodePropertiesAsMap() {
+    public Map<String, Object> getNodePropertiesAsMap() {
         return nodeProperties.getPropertiesAsMap();
     }
 

@@ -52,7 +52,7 @@ public class NodeProperties implements IsSerializable {
     }
 
     @JsonValue
-    public Map<String, String> getPropertiesAsMap() {
+    public Map<String, Object> getPropertiesAsMap() {
         return new HashMap<>(properties);
     }
 
