@@ -1,10 +1,12 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.fasterxml.jackson.annotation.*;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -60,6 +62,7 @@ public class TerminalNode extends Node implements HasNodeProperties {
      *
      * @return The {@link edu.stanford.protege.widgetmap.shared.node.TerminalNodeId}.  Not {@code null}.
      */
+    @JsonProperty("id")
     public TerminalNodeId getNodeId() {
         return nodeId;
     }
@@ -69,8 +72,14 @@ public class TerminalNode extends Node implements HasNodeProperties {
      *
      * @return The {@link edu.stanford.protege.widgetmap.shared.node.NodeProperties} for this node.  Not {@code null}.
      */
+    @JsonIgnore
     public NodeProperties getNodeProperties() {
         return nodeProperties;
+    }
+
+    @JsonAnyGetter
+    public Map<String, String> getNodePropertiesAsMap() {
+        return nodeProperties.getPropertiesAsMap();
     }
 
     /**
@@ -99,6 +108,7 @@ public class TerminalNode extends Node implements HasNodeProperties {
         return otherNode instanceof TerminalNode;
     }
 
+    @JsonIgnore
     @Override
     public boolean isParentNode() {
         return false;
@@ -109,6 +119,7 @@ public class TerminalNode extends Node implements HasNodeProperties {
         return this;
     }
 
+    @JsonIgnore
     @Override
     public Set<TerminalNode> getTerminalNodes() {
         return Collections.singleton(this);

@@ -1,5 +1,7 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -26,10 +28,12 @@ public class TerminalNodeId implements Serializable, IsSerializable {
         id = NODE_ID_PREFIX + nextId();
     }
 
+    @JsonCreator
     public TerminalNodeId(String id) {
         this.id = checkNotNull(id);
     }
 
+    @JsonValue
     public String getId() {
         return id;
     }

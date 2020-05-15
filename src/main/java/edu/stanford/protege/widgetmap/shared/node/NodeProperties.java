@@ -1,7 +1,11 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableMap;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import javax.annotation.Nonnull;
@@ -24,6 +28,7 @@ public class NodeProperties implements IsSerializable {
 
     }
 
+    @JsonCreator
     private NodeProperties(Map<String, String> properties) {
         this.properties.putAll(properties);
     }
@@ -46,6 +51,12 @@ public class NodeProperties implements IsSerializable {
         return value;
     }
 
+    @JsonValue
+    public Map<String, String> getPropertiesAsMap() {
+        return new HashMap<>(properties);
+    }
+
+    @JsonIgnore
     @Nonnull
     public List<String> getProperties() {
         return new ArrayList<String>(properties.keySet());

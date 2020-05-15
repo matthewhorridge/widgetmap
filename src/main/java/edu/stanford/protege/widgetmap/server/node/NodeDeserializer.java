@@ -1,56 +1,68 @@
 package edu.stanford.protege.widgetmap.server.node;
 
-import com.google.gson.*;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.stanford.protege.widgetmap.shared.node.*;
 
-import java.lang.reflect.Type;
-import java.util.Map;
+import java.io.IOException;
+import java.util.Iterator;
 
 import static edu.stanford.protege.widgetmap.server.node.SerializationVocabulary.*;
 
 /**
  * Matthew Horridge Stanford Center for Biomedical Informatics Research 22/02/16
  */
-public class NodeDeserializer implements JsonDeserializer<Node> {
+public class NodeDeserializer extends StdDeserializer<Node> {
 
+
+    public NodeDeserializer() {
+        super(Node.class);
+    }
 
     @Override
-    public Node deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        if(jsonObject.has(CHILDREN.getVocabulary())) {
-            return deserializeParentNode(jsonObject, context);
-        }
-        else {
-            return deserializeTerminalNode(jsonElement);
+    public Node deserialize(JsonParser parser, DeserializationContext ctxt) {
+        try {
+            ObjectNode objectNode = parser.readValueAsTree();
+            if(objectNode.has(CHILDREN.getVocabulary())) {
+                return deserializeParentNode(objectNode, ctxt);
+            }
+            else {
+                return deserializeTerminalNode(objectNode, ctxt);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
+
     /**
      * Derserialize a parent node.
-     * @param jsonElement The Json object that represents the parent node.
+     * @param objectNode The Json object that represents the parent node.
      * @param context The deserialization context.
      * @return The deserialized parent node.
      */
-    private Node deserializeParentNode(JsonElement jsonElement, JsonDeserializationContext context) {
-        if(!jsonElement.isJsonObject()) {
-            throw new WidgetMapParseException("Expected a Json object");
-        }
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        if(!jsonObject.has(DIRECTION.getVocabulary())) {
+    private Node deserializeParentNode(ObjectNode objectNode,
+                                       DeserializationContext context) throws JsonProcessingException {
+        if(!objectNode.has(DIRECTION.getVocabulary())) {
             throw new WidgetMapParseException("Expected direction property but did not find it");
         }
-        if(!jsonObject.has(CHILDREN.getVocabulary())) {
+        if(!objectNode.has(CHILDREN.getVocabulary())) {
             throw new WidgetMapParseException("Expected children property but did not find it");
         }
-        JsonElement directionElement = jsonObject.get(DIRECTION.getVocabulary());
-        String directionValue = directionElement.getAsString();
+        JsonNode directionElement = objectNode.get(DIRECTION.getVocabulary());
+        String directionValue = directionElement.asText();
         if(!(directionValue.equals(Direction.COLUMN.name()) || directionValue.equals(Direction.ROW.name()))) {
             throw new WidgetMapParseException("Expected COLUMN or ROW as value for direction property but found " + directionValue);
         }
         ParentNode parentNode = new ParentNode(Direction.valueOf(directionValue));
-        JsonArray childrenArray = jsonObject.getAsJsonArray(CHILDREN.getVocabulary());
-        for(JsonElement childElement : childrenArray) {
-            deserializeChildNode(parentNode, childElement, context);
+        ArrayNode childrenArray = objectNode.withArray(CHILDREN.getVocabulary());
+        for(JsonNode childElement : childrenArray) {
+            deserializeChildNode(parentNode, (ObjectNode) childElement, context);
         }
         return parentNode;
     }
@@ -58,36 +70,38 @@ public class NodeDeserializer implements JsonDeserializer<Node> {
     /**
      * Deserialize a child of the specified parent node.
      * @param parentNode The parent node.  The child will be added to this parent.
-     * @param childElement The Json element that represents the child.
+     * @param childObjectNode The Json element that represents the child.
      * @param context The serialization context.
      */
-    private void deserializeChildNode(ParentNode parentNode, JsonElement childElement, JsonDeserializationContext context) {
-        JsonObject childObject = childElement.getAsJsonObject();
-        JsonElement weightElement = childObject.get(WEIGHT.getVocabulary());
+    private void deserializeChildNode(ParentNode parentNode, ObjectNode childObjectNode, DeserializationContext context) throws JsonProcessingException {
+        JsonNode weightElement = childObjectNode.get(WEIGHT.getVocabulary());
         if(weightElement == null) {
             throw new WidgetMapParseException("Expected weight property but did not find it");
         }
-        double weight = weightElement.getAsDouble();
-        JsonElement childNodeElement = childObject.get(NODE.getVocabulary());
+        double weight = weightElement.asDouble();
+        JsonNode childNodeElement = childObjectNode.get(NODE.getVocabulary());
         if(childNodeElement == null) {
             throw new WidgetMapParseException("Expected node property but did not find it");
         }
-        Node childNode = context.deserialize(childNodeElement, Node.class);
+
+        Node childNode = context.getParser().getCodec().treeToValue(childNodeElement, Node.class);
         parentNode.addChild(childNode, weight);
     }
 
     /**
      * Deserialize a terminal node.
-     * @param jsonElement The Json element that represents the terminal element.
+     * @param objectNode The Json element that represents the terminal element.
      * @return The deserialized node.
      */
-    private Node deserializeTerminalNode(JsonElement jsonElement) {
-        JsonObject nodeObject = jsonElement.getAsJsonObject();
+    private Node deserializeTerminalNode(ObjectNode objectNode, DeserializationContext context) {
         NodeProperties.Builder builder = NodeProperties.builder();
-        TerminalNodeId nodeId = deserializeTerminalNodeId(nodeObject);
-        for(Map.Entry<String, JsonElement> entry : nodeObject.entrySet()) {
-            if (!entry.getKey().equals(ID.getVocabulary())) {
-                builder.setValue(entry.getKey(), entry.getValue().getAsString());
+        TerminalNodeId nodeId = deserializeTerminalNodeId(objectNode);
+        for(Iterator<String> it = objectNode.fieldNames(); it.hasNext(); ) {
+            String fieldName = it.next();
+            if(!fieldName.equals(ID.getVocabulary())) {
+                JsonNode valueNode = objectNode.get(fieldName);
+                String value = valueNode.asText();
+                builder.setValue(fieldName, value);
             }
         }
         return TerminalNode.builder(nodeId).withProperties(builder.build()).build();
@@ -99,9 +113,9 @@ public class NodeDeserializer implements JsonDeserializer<Node> {
      * @param nodeObject The Json object that represents the terminal node.
      * @return The TerminalNodeId
      */
-    private TerminalNodeId deserializeTerminalNodeId(JsonObject nodeObject) {
+    private TerminalNodeId deserializeTerminalNodeId(ObjectNode nodeObject) {
         if(nodeObject.has(ID.getVocabulary())) {
-            return new TerminalNodeId(nodeObject.get(ID.getVocabulary()).getAsString());
+            return new TerminalNodeId(nodeObject.get(ID.getVocabulary()).asText());
         }
         else {
             return new TerminalNodeId();

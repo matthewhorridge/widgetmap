@@ -1,10 +1,16 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -92,10 +98,17 @@ public class ParentNode extends Node {
         return children.get(index).getNode();
     }
 
+    @JsonIgnore
     public int getChildCount() {
         return children.size();
     }
 
+    @Nonnull
+    public List<NodeHolder> getChildren() {
+        return new ArrayList<>(children);
+    }
+
+    @JsonIgnore
     @Override
     public Set<TerminalNode> getTerminalNodes() {
         Set<TerminalNode> result = new HashSet<TerminalNode>();
@@ -109,6 +122,7 @@ public class ParentNode extends Node {
         return direction;
     }
 
+    @JsonIgnore
     public double getTotalWeight() {
         double result = 0;
         for (NodeHolder wn : children) {
@@ -156,6 +170,7 @@ public class ParentNode extends Node {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isParentNode() {
         return true;
@@ -175,6 +190,7 @@ public class ParentNode extends Node {
         }
     }
 
+    @JsonIgnore
     @Override
     public ParentNode duplicate() {
         ParentNode parentNode = new ParentNode(direction);
@@ -225,6 +241,8 @@ public class ParentNode extends Node {
      *
      * @return The first child node minimised.
      */
+    @JsonIgnore
+    @Nonnull
     private Node getFirstNodeMinimised() {
         return children.get(0).getNode().minimise();
     }
@@ -261,7 +279,12 @@ public class ParentNode extends Node {
         return this;
     }
 
-    protected static class NodeHolder implements IsSerializable {
+    @JsonPropertyOrder({NodeHolder.WEIGHT, NodeHolder.NODE})
+    public static class NodeHolder implements IsSerializable {
+
+        static final String NODE = "node";
+
+        static final String WEIGHT = "weight";
 
         private Node node;
 
@@ -271,15 +294,18 @@ public class ParentNode extends Node {
         private NodeHolder() {
         }
 
-        private NodeHolder(Node node, double weight) {
+        @JsonCreator
+        private NodeHolder(@JsonProperty(NODE) Node node, @JsonProperty(WEIGHT) double weight) {
             this.node = node;
             this.weight = weight;
         }
 
+        @JsonProperty(NODE)
         private Node getNode() {
             return node;
         }
 
+        @JsonProperty(WEIGHT)
         private double getWeight() {
             return weight;
         }

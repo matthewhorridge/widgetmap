@@ -1,32 +1,34 @@
 package edu.stanford.protege.widgetmap.server.node;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.stanford.protege.widgetmap.shared.node.*;
+
+import java.io.IOException;
 
 /**
  * Matthew Horridge Stanford Center for Biomedical Informatics Research 22/02/16
  */
 public class JsonNodeSerializer {
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
     public JsonNodeSerializer() {
 
     }
 
-    private Gson createGson() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.setPrettyPrinting();
-        builder.registerTypeAdapter(ParentNode.class, new ParentNodeSerializer());
-        builder.registerTypeAdapter(TerminalNode.class, new TerminalNodeSerializer());
-        builder.registerTypeAdapter(Node.class, new NodeDeserializer());
-        builder.disableHtmlEscaping();
-        return builder.create();
-    }
-
     public String serialize(Node node) {
-        return createGson().toJson(node);
+        try {
+            return objectMapper.writeValueAsString(node);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
     public Node deserialize(String s) {
-        return createGson().fromJson(s, Node.class);
+        try {
+            return objectMapper.readValue(s, Node.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
