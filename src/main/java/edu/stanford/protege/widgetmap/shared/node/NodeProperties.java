@@ -9,6 +9,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -22,15 +24,17 @@ public class NodeProperties implements IsSerializable {
     private static final NodeProperties EMPTY_NODE_PROPERTIES = new NodeProperties();
 
     // Cannot be final because of GWT serialization
-    private Map<String, String> properties = new LinkedHashMap<String, String>();
+    private NodePropertyValueMap properties = new NodePropertyValueMap();
 
     private NodeProperties() {
 
     }
 
     @JsonCreator
-    private NodeProperties(Map<String, String> properties) {
-        this.properties.putAll(properties);
+    private NodeProperties(@Nullable Map<String, NodePropertyValue> properties) {
+        if (properties != null) {
+            this.properties.putAll(properties);
+        }
     }
 
 
@@ -44,7 +48,17 @@ public class NodeProperties implements IsSerializable {
 
 
     public String getPropertyValue(String propertyName, String defaultValue) {
-        String value = properties.get(propertyName);
+        NodePropertyValue value = properties.get(propertyName);
+        if(value instanceof StringNodePropertyValue) {
+            return ((StringNodePropertyValue) value).getValue();
+        }
+        else {
+            return defaultValue;
+        }
+    }
+
+    public NodePropertyValue getPropertyValue(String propertyName, NodePropertyValue defaultValue) {
+        NodePropertyValue value = properties.get(propertyName);
         if (value == null) {
             return defaultValue;
         }
@@ -52,14 +66,14 @@ public class NodeProperties implements IsSerializable {
     }
 
     @JsonValue
-    public Map<String, Object> getPropertiesAsMap() {
-        return new HashMap<>(properties);
+    public NodePropertyValueMap getPropertiesAsMap() {
+        return new NodePropertyValueMap(properties);
     }
 
     @JsonIgnore
     @Nonnull
     public List<String> getProperties() {
-        return new ArrayList<String>(properties.keySet());
+        return new ArrayList<>(properties.keySet());
     }
 
     @Nonnull
@@ -70,18 +84,25 @@ public class NodeProperties implements IsSerializable {
     public static class Builder {
 
         @Nonnull
-        private final Map<String, String> propertiesMap;
+        private final Map<String, NodePropertyValue> propertiesMap;
 
         public Builder() {
             this(new LinkedHashMap<>());
         }
 
-        public Builder(@Nonnull Map<String, String> propertiesMap) {
+        public Builder(@Nonnull Map<String, NodePropertyValue> propertiesMap) {
             this.propertiesMap = propertiesMap;
         }
 
-        public Builder setValue(String property, String value) {
+        @Nonnull
+        public Builder setValue(String property, NodePropertyValue value) {
             propertiesMap.put(property, value);
+            return this;
+        }
+
+        @Nonnull
+        public Builder setValue(String property, String value) {
+            setValue(property, StringNodePropertyValue.get(value));
             return this;
         }
 
@@ -90,7 +111,7 @@ public class NodeProperties implements IsSerializable {
                 return EMPTY_NODE_PROPERTIES;
             }
             else {
-                return new NodeProperties(new LinkedHashMap<String, String>(propertiesMap));
+                return new NodeProperties(new LinkedHashMap<>(propertiesMap));
             }
         }
     }

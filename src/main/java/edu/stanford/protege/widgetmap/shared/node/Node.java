@@ -1,9 +1,9 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import edu.stanford.protege.widgetmap.server.node.NodeDeserializer;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -17,7 +17,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Bio-Medical Informatics Research Group<br>
  * Date: 05/12/2013
  */
-@JsonDeserialize(using = NodeDeserializer.class)
+@JsonSubTypes({
+        @JsonSubTypes.Type(TerminalNode.class),
+        @JsonSubTypes.Type(ParentNode.class)
+})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public abstract class Node implements IsSerializable {
 
     @Nullable

@@ -16,7 +16,7 @@ public class NodePropertiesTestCase {
     @Test
     public void getPropertyValueShouldReturnDefaultValueForPropertyThatIsNotPresent() {
         NodeProperties nodeProperties = NodeProperties.emptyNodeProperties();
-        String val = nodeProperties.getPropertyValue("prop", "x");
+        Object val = nodeProperties.getPropertyValue("prop", "x");
         assertEquals("x", val);
 
     }
@@ -33,16 +33,6 @@ public class NodePropertiesTestCase {
         NodeProperties.Builder builder = NodeProperties.builder();
         builder.setValue("prop", "x");
         NodeProperties properties = builder.build();
-        assertEquals("x", properties.getPropertyValue("prop", null));
-    }
-
-    @Test
-    public void toStringShouldReturnPropertyInfo() {
-        NodeProperties.Builder builder = NodeProperties.builder();
-        builder.setValue("propP", "x");
-        builder.setValue("propQ", "y");
-        NodeProperties properties = builder.build();
-        String result = properties.toString();
-        assertEquals(result, "NodeProperties{propP=x, propQ=y}");
+        assertEquals("x", properties.getPropertyValue("prop", (String) null));
     }
 }

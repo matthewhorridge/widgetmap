@@ -301,12 +301,12 @@ public class ParentNode extends Node {
         }
 
         @JsonProperty(NODE)
-        private Node getNode() {
+        public Node getNode() {
             return node;
         }
 
         @JsonProperty(WEIGHT)
-        private double getWeight() {
+        public double getWeight() {
             return weight;
         }
 

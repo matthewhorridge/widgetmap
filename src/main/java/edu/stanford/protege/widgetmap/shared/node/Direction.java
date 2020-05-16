@@ -1,5 +1,7 @@
 package edu.stanford.protege.widgetmap.shared.node;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Author: Matthew Horridge<br>
  * Stanford University<br>
@@ -11,8 +13,10 @@ package edu.stanford.protege.widgetmap.shared.node;
  */
 public enum Direction {
 
+    @JsonProperty("row")
     ROW,
 
+    @JsonProperty("column")
     COLUMN;
 
     public static Direction getDefaultDirection() {

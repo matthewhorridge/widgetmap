@@ -2,10 +2,14 @@ package edu.stanford.protege.widgetmap.shared.node;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -16,55 +20,33 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Bio-Medical Informatics Research Group<br>
  * Date: 07/01/2014
  */
-public class TerminalNodeId implements Serializable, IsSerializable {
+@AutoValue
+@GwtCompatible(serializable = true)
+public abstract class TerminalNodeId implements Serializable, IsSerializable {
 
     public static final String NODE_ID_PREFIX = "N-";
 
-    private final String id;
-
     private static int counter = 0;
 
-    public TerminalNodeId() {
-        id = NODE_ID_PREFIX + nextId();
+    public static TerminalNodeId get() {
+        String id = NODE_ID_PREFIX + nextId();
+        return new AutoValue_TerminalNodeId(id);
     }
 
     @JsonCreator
-    public TerminalNodeId(String id) {
-        this.id = checkNotNull(id);
+    @Nonnull
+    public static TerminalNodeId get(String id) {
+        return new AutoValue_TerminalNodeId(id);
     }
 
     @JsonValue
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if(o == this) {
-            return true;
-        }
-        if(!(o instanceof TerminalNodeId)) {
-            return false;
-        }
-        TerminalNodeId other = (TerminalNodeId) o;
-        return this.id.equals(other.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return "TerminalNodeId".hashCode() + id.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper("Id").addValue(id).toString();
-    }
+    public abstract String getId();
 
     /**
      * Gets the next internal id.
      * @return The next internal id.
      */
-    private int nextId() {
+    private static int nextId() {
         return counter++;
     }
 }

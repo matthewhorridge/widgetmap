@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.stanford.protege.widgetmap.shared.node.*;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import java.io.IOException;
 
 /**
@@ -11,15 +13,17 @@ import java.io.IOException;
  */
 public class JsonNodeSerializer {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    public JsonNodeSerializer() {
+    @Inject
+    public JsonNodeSerializer(@Nonnull ObjectMapper objectMapper) {
 
+        this.objectMapper = objectMapper;
     }
 
     public String serialize(Node node) {
         try {
-            return objectMapper.writeValueAsString(node);
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

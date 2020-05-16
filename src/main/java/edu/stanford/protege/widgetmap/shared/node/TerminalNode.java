@@ -3,8 +3,10 @@ package edu.stanford.protege.widgetmap.shared.node;
 import com.fasterxml.jackson.annotation.*;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 import javax.annotation.Nonnull;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +23,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * which determines its identity.  Two instances with the same node id are equal.
  * </p>
  */
+@JsonPropertyOrder({"id", "properties"})
+@JsonTypeName("LeafNode")
 public class TerminalNode extends Node implements HasNodeProperties {
 
     private NodeProperties nodeProperties;
@@ -31,7 +35,7 @@ public class TerminalNode extends Node implements HasNodeProperties {
      * Constructs a fresh {@code TerminalNode}.  A fresh {@link TerminalNodeId} will be generated for the node.
      */
     public TerminalNode() {
-        this(new TerminalNodeId());
+        this(TerminalNodeId.get());
     }
 
     /**
@@ -50,7 +54,7 @@ public class TerminalNode extends Node implements HasNodeProperties {
     }
 
     public static Builder builder() {
-        return builder(new TerminalNodeId());
+        return builder(TerminalNodeId.get());
     }
 
     public static Builder builder(TerminalNodeId nodeId) {
@@ -72,14 +76,9 @@ public class TerminalNode extends Node implements HasNodeProperties {
      *
      * @return The {@link edu.stanford.protege.widgetmap.shared.node.NodeProperties} for this node.  Not {@code null}.
      */
-    @JsonIgnore
+    @JsonProperty("properties")
     public NodeProperties getNodeProperties() {
         return nodeProperties;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getNodePropertiesAsMap() {
-        return nodeProperties.getPropertiesAsMap();
     }
 
     /**

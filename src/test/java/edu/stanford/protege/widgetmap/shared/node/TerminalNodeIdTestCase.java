@@ -15,27 +15,27 @@ public class TerminalNodeIdTestCase {
 
     @Test(expected = NullPointerException.class)
     public void nullIdShouldThrowNullPointerException() {
-        new TerminalNodeId(null);
+        TerminalNodeId.get(null);
     }
 
     @Test
     public void nodeIdsWithEqualLexicalIdsShouldBeEqual() {
-        TerminalNodeId nodeA = new TerminalNodeId("A");
-        TerminalNodeId nodeB = new TerminalNodeId("A");
+        TerminalNodeId nodeA = TerminalNodeId.get("A");
+        TerminalNodeId nodeB = TerminalNodeId.get("A");
         assertEquals(nodeA, nodeB);
     }
 
     @Test
     public void nodeIdsWithEqualLexicalIdsShouldHaveTheSameHashCode() {
-        TerminalNodeId nodeA = new TerminalNodeId("A");
-        TerminalNodeId nodeB = new TerminalNodeId("A");
+        TerminalNodeId nodeA = TerminalNodeId.get("A");
+        TerminalNodeId nodeB = TerminalNodeId.get("A");
         assertEquals(nodeA.hashCode(), nodeB.hashCode());
     }
 
     @Test
     public void nodeIdsWithDifferentLexicalIdsShouldNotBeEqual() {
-        TerminalNodeId nodeA = new TerminalNodeId("A");
-        TerminalNodeId nodeB = new TerminalNodeId("B");
+        TerminalNodeId nodeA = TerminalNodeId.get("A");
+        TerminalNodeId nodeB = TerminalNodeId.get("B");
         assertFalse(nodeA.equals(nodeB));
     }
 
