@@ -35,6 +35,13 @@ public class ParentNode extends Node {
         this.direction = checkNotNull(direction);
     }
 
+    @JsonCreator
+    protected ParentNode(@JsonProperty("direction") Direction direction,
+                         @JsonProperty("children") List<NodeHolder> children) {
+        this.direction = checkNotNull(direction);
+        this.children.addAll(children);
+    }
+
     @Override
     public String toString() {
         MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper("ParentNode");

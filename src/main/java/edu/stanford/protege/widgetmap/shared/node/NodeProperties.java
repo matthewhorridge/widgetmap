@@ -24,7 +24,7 @@ public class NodeProperties implements IsSerializable {
     private static final NodeProperties EMPTY_NODE_PROPERTIES = new NodeProperties();
 
     // Cannot be final because of GWT serialization
-    private NodePropertyValueMap properties = new NodePropertyValueMap();
+    private Map<String, NodePropertyValue> properties = new HashMap<>();
 
     private NodeProperties() {
 
@@ -123,5 +123,17 @@ public class NodeProperties implements IsSerializable {
                 helper.add(property, properties.get(property));
             }
         return helper.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+        if(!(obj instanceof NodeProperties)) {
+            return false;
+        }
+        NodeProperties other = (NodeProperties) obj;
+        return this.properties.equals(other.properties);
     }
 }

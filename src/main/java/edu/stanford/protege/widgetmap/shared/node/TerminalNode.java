@@ -48,9 +48,21 @@ public class TerminalNode extends Node implements HasNodeProperties {
         this(nodeId, NodeProperties.emptyNodeProperties());
     }
 
-    public TerminalNode(TerminalNodeId nodeId, NodeProperties nodeProperties) {
-        this.nodeId = checkNotNull(nodeId);
-        this.nodeProperties = checkNotNull(nodeProperties);
+    @JsonCreator
+    public TerminalNode(@JsonProperty("id") TerminalNodeId nodeId,
+                        @JsonProperty("properties") NodeProperties nodeProperties) {
+        if(nodeId == null) {
+            this.nodeId = TerminalNodeId.get();
+        }
+        else {
+            this.nodeId = nodeId;
+        }
+        if(nodeProperties == null) {
+            this.nodeProperties = NodeProperties.emptyNodeProperties();
+        }
+        else {
+            this.nodeProperties = checkNotNull(nodeProperties);
+        }
     }
 
     public static Builder builder() {

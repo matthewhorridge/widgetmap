@@ -18,11 +18,6 @@ import static org.mockito.Mockito.verify;
  */
 public class TerminalNodeTestCase {
 
-    @Test(expected = NullPointerException.class)
-    public void constructorThrowsNullPointerForNullId() {
-        new TerminalNode(null);
-    }
-
     @Test
     public void getNodeIdReturnsSuppliedNodeId() {
         TerminalNodeId nodeId = mock(TerminalNodeId.class);
